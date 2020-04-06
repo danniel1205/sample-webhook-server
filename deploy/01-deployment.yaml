@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: webhook
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-webhook-server
+  namespace: webhook
+  labels:
+    app: sample-webhook-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-webhook-server
+  template:
+    metadata:
+      labels:
+        app: sample-webhook-server
+    spec:
+      containers:
+        - name: sample-webhook-server
+          image: sample-webhook-server:v1
+          imagePullPolicy: Never
+          command: ["sample-webhook-server"]
+          args:
+            - "--tls-cert-file=/webhook-tls/tls.crt"
+            - "--tls-private-key-file=/webhook-tls/tls.key"
+          ports:
+            - containerPort: 443
+          volumeMounts:
+            - name: webhook-tls
+              readOnly: true
+              mountPath: "/webhook-tls"
+      volumes:
+        - name: webhook-tls
+          secret:
+            secretName: webhook-tls
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-webhook-server
+  namespace: webhook
+spec:
+  selector:
+    app: sample-webhook-server
+  ports:
+    - protocol: TCP
+      port: 443
+      targetPort: 443

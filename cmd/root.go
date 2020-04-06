@@ -3,9 +3,10 @@ package cmd
 import (
 	"flag"
 	"fmt"
+	"os"
+
 	"github.com/danniel1205/sample-webhook-server/pkg/webhook"
 	"github.com/spf13/cobra"
-	"os"
 
 	"k8s.io/klog"
 )

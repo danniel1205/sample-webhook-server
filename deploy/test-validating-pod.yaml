@@ -3,7 +3,8 @@ kind: Pod
 metadata:
   name: nginx
   labels:
-    webhook-test: "true"
+    webhook-validate: "true"
+    webhook-mutate: "false"
 spec:
   containers:
     - name: nginx

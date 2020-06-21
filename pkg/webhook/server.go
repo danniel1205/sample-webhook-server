@@ -44,6 +44,10 @@ func servePods(w http.ResponseWriter, r *http.Request) {
 	serve(w, r, newDelegateToV1AdmitHandler(admitPods))
 }
 
+func serveMutatePods(w http.ResponseWriter, r *http.Request) {
+	serve(w, r, newDelegateToV1AdmitHandler(mutatePods))
+}
+
 // serve handles the http portion of a request prior to handing to an admit
 // function
 func serve(w http.ResponseWriter, r *http.Request, admit admitHandler) {
@@ -131,6 +135,7 @@ func RunCmd(cmd *cobra.Command, args []string) {
 	}
 
 	http.HandleFunc("/validate-pods", servePods)
+	http.HandleFunc("/mutate-pods", serveMutatePods)
 	http.HandleFunc("/readyz", func(w http.ResponseWriter, req *http.Request) { w.Write([]byte("ok")) })
 
 	server := &http.Server{

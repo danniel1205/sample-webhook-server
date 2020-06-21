@@ -30,7 +30,7 @@ func admitPods(ar v1.AdmissionReview) *v1.AdmissionResponse {
 	reviewResponse.Allowed = true
 
 	var msg string
-	if v, ok := pod.Labels["webhook-test"]; ok {
+	if v, ok := pod.Labels["webhook-validate"]; ok {
 		if v == "true" && (pod.Namespace == "" || pod.Namespace == "default") {
 			reviewResponse.Allowed = false
 			msg += "the namespace must be specified to create pod"

@@ -1,0 +1,22 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: sample-validating-webhook-config
+webhooks:
+  - name: sample-webhook-server.example.com
+    rules:
+      - operations: ["CREATE", "UPDATE"]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+        scope: "Namespaced"
+    sideEffects: None
+    timeoutSeconds: 1
+    failurePolicy: Ignore
+    admissionReviewVersions: ["v1", "v1beta1"]
+    clientConfig:
+      service:
+        namespace: "webhook"
+        name: "sample-webhook-server"
+        path: "/validate-pods"
+      caBundle: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUMyakNDQWNJQ0NRQ242SW05aXRKaUV6QU5CZ2txaGtpRzl3MEJBUXNGQURBdk1TMHdLd1lEVlFRRERDUkIKWkcxcGMzTnBiMjRnUTI5dWRISnZiR3hsY2lCWFpXSm9iMjlySUVSbGJXOGdRMEV3SGhjTk1qQXdOakl4TURndwpORFE1V2hjTk1qQXdOekl4TURnd05EUTVXakF2TVMwd0t3WURWUVFERENSQlpHMXBjM05wYjI0Z1EyOXVkSEp2CmJHeGxjaUJYWldKb2IyOXJJRVJsYlc4Z1EwRXdnZ0VpTUEwR0NTcUdTSWIzRFFFQkFRVUFBNElCRHdBd2dnRUsKQW9JQkFRQ2hWazA2a2FWbWI0UFFuMk5yY1gycGdvd3NKbTRRckpSYzM5ak45NnJQZVo1clIvdmp0UDlHS3BXMQo0VUtrRG9vTUJhbElpVTAzeFFKRFlIdHlJb1JmS3F4OFBPeXE3K2RnOEFUWi9CZkNtcVBzK1VBaFpZbG1FaHpFCldNNllsZk02MzRsVC84RkR0U0EvdC9ZVFFIQS9RaWtsUkR0Nmc5dUFDVEZSVHNJZFR6YVpiTllYSTlGZHFxVk4KeGpvblFlSmFnQWd3d1BRdWtsMzk2aDdDUy9qTnp4bEhCUG41L1lIOE4zVzR6b1dhMG9uWWcxR0EvMitGMngwbwpRRmEvK1BtMkxZZllhZGFiTzE5bk1GNjNVUE1uTXFjVTJHeHZWcDllQnlMbjBLbndxK3J6K2hkZmhzekdhL216ClNlYzJjRTl4WUlOQkFlZDJobVU4T0JMMCtEWWpBZ01CQUFFd0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFCdTUKSG4wWEVwRW9OdGczcWRNNzl4ditmK0pCc0c0eTZCdEhOWTJyTTB2V3RHQ1VDTk1jNlNWcXYveWFsZGZaUWJPMQpTQjFicncxYS9MamtJeEswTGdnaUtzVHBLZEdjWnFCYjZZWFEybnQyTTFnaENvNVlHZk9nUGwyS0pRY2ZqL3A5CjZjYW9CbjRCM0p6QkJRWUh5ZnlEbnBYM3V2blJKRHhkYk5KREJmcWY3cDdNMmtnRC8zYk5zZ2NUVERBTUZmNzAKYk1xeTZDQUs0eDBnQzQ0Q1VtM2NYQm0rdmF1dVpBZ1FUMmxCL2tZK3dacmNEbFFrUjRWaTkwSndvbzc4OXArOApGcXM0TFFsbnB4eTFKVDhvaGNzSEhLaTZIN09kK05VeVZPZ3VpSmx1Ui82ZDM2a0NuS0hIQUs4TC9vSUlXRnVKCnFWM09hWG9HeXdrM3BmaXUzVjg9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"
